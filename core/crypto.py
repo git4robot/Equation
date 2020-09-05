@@ -1,5 +1,7 @@
-from re import *
+from re import findall
+from os import system
 from errors import *
+
 class _Test_key:
       def __init__(self, key, method, *type):
             self.key = key
@@ -171,7 +173,6 @@ class Vigenere:
 
 class Hill:
       def __init__(self):
-            from numpy import matrix
             self.letter_list = 'A B C D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' ')
             self.number_list = list(range(26))
             self.is_numpy = True
@@ -194,6 +195,9 @@ class Hill:
             for x in range(len(msg)):
                   index = self.letter_list.index(self.msg_list[x])
                   self.index_list.append(index)
+
+            if not self.is_numpy:
+                  system('pip install numpy')
             
             if self.is_numpy:
                   from numpy.linalg import det
@@ -216,7 +220,6 @@ class Hill:
                         self.output += x
                   return self.output
 
-
       def decipher(self, msg, secret_key):
             try: from numpy import matrix
             except ImportError: self.is_numpy = False
@@ -234,10 +237,14 @@ class Hill:
             for x in range(len(msg)):
                   index = self.letter_list.index(self.msg_list[x])
                   self.index_list.append(index)
+
+            if not self.is_numpy:
+                  system('pip install numpy')
             
             if self.is_numpy:
-                  print(matrix(self.index_list), '\n', self.secret_key.I)
-                  print(self.secret_key.I * matrix(self.index_list).T)
+##                  print(matrix(self.index_list), '\n', self.secret_key.I)
+##                  print(self.secret_key.I * matrix(self.index_list).T)
+                  return self.encipher(msg, self.secret_key.I % self.mod)
                   
 class Rsa:
       def __init__(self):
@@ -276,14 +283,13 @@ def demo():
       affine = Affine()
       print(affine.encipher('AFF INE 8 /?CI PHER'))
       print(affine.decipher('IHHW VCS69  583(WFRCP'))
-      '''
       vigenere = Vigenere()
       print(vigenere.encipher('AT 7*&*&*&Ta CK A 5t%^3D9 AwN 4^9', 'Lemon'))
       print(vigenere.decipher('QRG36K kt HR246^*#&@^ZQE B356PR', 'Encrypt'))
-      #'''
-      #hill = Hill()
+      '''
+      hill = Hill()
       #print(hill.encipher('A578^&c9()():"{}\'T&', matrix([[6, 24, 1], [13, 16, 10], [20, 17, 15]])))
-      #print(hill.decipher('   Hi 46%34:{}:{}66a4T;;;\'9(', matrix([[3, 3], [2, 5]])))
+      print(hill.decipher('Hi 46%34:{}:{}66a4T;;;\'9(', matrix([[3, 3], [2, 5]])))
       #rsa = Rsa()
       #print(rsa.encipher('A578^&c9()():"{}\'T&', 43, 101))
       

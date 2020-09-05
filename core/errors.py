@@ -27,7 +27,7 @@ class SymbolTypeError(SymbolError):
             self.symbol = symbol
             
       def __str__(self):
-            return f'''Except symbol type {repr(str)}, got \'{type(self.symbol).__name__}\'.'''
+            return f'''Except symbol type \'str\', got \'{type(self.symbol).__name__}\'.'''
 
 class SymbolNameError(SymbolError):
       def __init__(self, name):
@@ -87,10 +87,10 @@ class KeyNumError(SecretKeyError):
       def __init__(self, key, method, key2 = None):
             self.key = key
             self.method = method
-            self.key2 = str(key2)
+            self.key2 = key2
             
       def __str__(self):
-            if self.key2:
+            if self.key2 != None:
                   return f'''Invalid key \'{self.key}\' and key \'{self.key2}\' for {self.method}.'''
 
             return f'''Invalid key \'{self.key}\' for {self.method}.'''
